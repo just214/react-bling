@@ -1,7 +1,7 @@
 {
-  "name": "create-react-library",
-  "version": "1.1.0",
-  "description": "React NPM library starter kit based on Facebook's create react app",
+  "name": "react-bling",
+  "version": "0.0.1",
+  "description": "A simple library that brings together react-animations, styled-components and react-waypoint to give you out-of-the-box animations for your React project.",
   "main": "build/index.js",
   "scripts": {
     "start": "node scripts/start.js",
@@ -11,15 +11,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DimitriMikadze/create-react-library.git"
+    "url": "git+https://github.com/gojutin/react-bling.git"
   },
-  "author": "Dimitri Mikadze <dimitrimikadze@gmail.com>",
+  "author": "Justin Wilkerson <gojutin@gmail.com>",
   "bugs": {
-    "url": "https://github.com/DimitriMikadze/create-react-library/issues"
+    "url": "https://github.com/gojutin/react-bling/issues"
   },
-  "homepage": "https://github.com/DimitriMikadze/create-react-library#readme",
+  "homepage": "https://github.com/gojutin/react-bling#readme",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "react-animations": "^1.0.0",
+    "react-waypoint": "^8.0.0",
+    "styled-components": "^3.1.6"
+  },
   "devDependencies": {
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",

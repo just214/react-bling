@@ -1,64 +1,366 @@
-# React NPM library starter kit
+# react-bling :gem:
 
-[![Build Status](https://travis-ci.org/DimitriMikadze/create-react-library.svg?branch=master)](https://travis-ci.org/DimitriMikadze/create-react-library)
-[![Dependencies](https://img.shields.io/david/DimitriMikadze/create-react-library.svg)]()
-[![Dev Dependencies](https://img.shields.io/david/dev/DimitriMikadze/create-react-library.svg)]()
+### `npm i react-bling`
 
-based on Facebook's <a href="https://github.com/facebookincubator/create-react-app" target="_blank">Create react app</a>.
-We are constantly updating repository with the updates of `create-react-app`, so we have all new features and bug fixes of it.
+#### A simple library that brings together [react-animations](https://github.com/FormidableLabs/react-animations), [styled-components](https://www.styled-components.com/) and [react-waypoint](https://github.com/brigade/react-waypoint) to give you out-of-the-box animations for your React project.
 
-## Converted to custom setup
+## Overview
 
-Moved all dependencies to dev dependencies because we don't need extra dependencies for our library after build, but we want all this features while developing: 
+Simply wrap any React component(s) or element(s) in a `Bling` component and pass it animations and display information via `props`. Animations can either applied on initial render via the `animate` prop or when the `Bling` component enters or exits the viewport via the `waypoint` prop. This library exposes the animations and `merge` function provided by _react-animations_ along with the ability to chain these animations.
 
-* React, JSX, ES6, and Flow syntax support.
-* Language extras beyond ES6 like the object spread operator.
-* A dev server that lints for common errors.
-* Import CSS and image files directly from JavaScript.
-* Autoprefixed CSS, so you don’t need `-webkit` or other prefixes.
-* A `build` script to bundle JS, CSS, and images for production.
+I created the following website, which lets you sample all of the animations provided provided by _react-animations_: [https://rad.surge.sh](https://rad.surge.sh)
 
-## Getting Started
+## Basic Usage
 
-Clone repo
+Here is the most basic example using the `animate` prop and `fadeIn` animation only:
 
-````
-git clone https://github.com/DimitriMikadze/create-react-library.git
-````
+```js
+import React from 'react';
+import Bling, { fadeIn } from 'react-bling';
 
-Install dependencies
+const App = () => (
+  <Bling animate={{ animation: fadeIn }}>
+    <p>Go react-bling!</p>
+  </Bling>
+);
+export default App;
+```
 
-`npm install` or `yarn install`
+## Props
 
-Start development server
+_react-bling_ accepts the following props: **_`el`, `render`, `animate`, `waypoint`_**
 
-`npm start` or `yarn start`
+### `el`
 
-Runs the demo app in development mode.
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+type: `string`
 
-## Library files
+default: `'div'`
 
-All library files are located inside `src/lib`  
+The `el` prop is used to define the html element type used as the `Bling` wrapper component. You can use any element within the limitations of the language. For instance, you cannot use `el='p'` and also render a `p` tag as a child.
 
-## Demo app
+Example:
 
-Is located inside `src/demo` directory, here you can test your library while developing
+```js
+<Bling el="div" ... />
+```
 
-## Testing
+### `render`
 
-`npm run test` or `yarn run test`
+The `render` prop is used to render your wrapped component(s) or element(s) and accepts a function or component. You can also just wrap your component(s) or element(s) in an opening and closing `Bling` tag as shown in the example above.
 
-## Build library
+```js
+<Bling
+  animate={{animation: fadeIn}}
+  render={<p>Go react-bling!</p>}
+/>
 
-`npm run build` or `yarn run build`
+/* is the same as */
 
-Produces production version of library under the `build` folder.
+<Bling
+  animate={{animation: fadeIn}}
+  render={() => <p>Go react-bling!</p>}
+/>
 
-## Publish library
+/* is the same as */
 
-`npm publish`
+<Bling animate={{animation: fadeIn}}>
+  <p>Go react-bling!</p>
+</Bling>
+```
 
-## Example library built with this starter kit
+> **_Note- The `animate` and `waypoint` props cannot be used together._**
 
-https://github.com/DimitriMikadze/react-under-construction
+### `animate`
+
+type: `object` or `array`
+
+The `animate` prop is used to set animation(s) when the `Bling` wrapper component first renders. You can either provide a single animation object or multiple animation objects in an array. If an array is provided, the animations will be applied in the same order as the array.
+
+A single animation
+
+```js
+import React from 'react';
+import Bling, { fadeIn } from './react-bling/Bling';
+
+const App = () => (
+  <Bling
+    animate={{
+      animation: fadeIn,
+      duration: 3,
+      delay: 2,
+      iterate: 2,
+    }}
+    render={<p>Go react-bling!</p>}
+  />
+);
+
+export default App;
+```
+
+An array of animations
+
+```js
+const App = () => (
+  <Bling
+    animate={[
+      {
+        animation: fadeIn,
+        duration: 3,
+      },
+      {
+        animation: tada,
+        duration: 2,
+        iterate: 2,
+      },
+      {
+        animation: fadeOut,
+        duration: 4,
+      },
+    ]}
+    render={<p>Go react-bling!</p>}
+  />
+);
+
+export default App;
+```
+
+**Properties:**
+
+**`animation`**
+
+type: `object` (required)
+
+You can pass any animation that you import from _react-bling_. You can also use _react-animations_' `merge` function to make your own unique animations. `animation: merge(fadeIn, tada)`
+
+**`duration`**
+
+type: `number` default: `2`
+
+This property accepts a number representing the duration of the animation in seconds.
+
+**`delay`**
+
+type: `number` default: `0`
+
+This property accepts a number representing the delay of the animation in seconds.
+
+**`iterate`**
+
+type: `number | string` default: `1`
+
+This property accepts a number representing the number of times the animation should repeat. You can also pass the string `'infinite'` to repeat until the end of time.
+
+**`direction`**
+
+type: `string` default: `'normal'`
+
+This property accepts a number representing the animation-direction property.
+
+accepted values: `'normal' | 'reverse' | 'alternate' | 'alternate-reverse'`
+
+### `waypoint`
+
+type: `object`
+
+The `waypoint` prop is used to set animation(s) when the `Bling` wrapper component enters and leaves the viewport.
+
+**Properties:**
+
+**`position`**
+
+type: `string`
+options: `'above' | 'below'`
+default: `'above'`
+
+Places the `waypoint` above or below the wrapped component(s) or element(s).
+
+**`topOffset`**
+
+type: `string || number`
+examples: `100 | -100 | '100px' | '100%'`
+default: `'0px'`
+
+**`bottomOffset`**
+
+type: `string || number`
+examples: `100 | -100 | '100px' | '100%'`
+default: `'0px'`
+
+The `topOffset` and `bottomOffset` properties control the top and bottom boundaries of the `waypoint` component and can be a little tricky to grasp at first. You can provide a number, which represents pixels. You can also represent pixels, percentages, etc. as strings. (eg. `'100%'`)
+
+If you set `topOffset:'100px'`, this can be thought of like pushing the top boundary of the page down 100 pixels. This means that if you are scrolling up from the bottom, your `leave` animation would be triggered when the `waypoint` got to 100 pixels below the top of the screen. And if you are scrolling down from the very top, the `enter` animation will not be triggered until it reaches 100 pixels below the top of the screen.
+
+If you set `bottomOffset:'100px'`, this can be thought of like pushing the bottom boundary of the page up 100 pixels. This means that if you are scrolling down from the top, your `leave` animation would be triggered when the `waypoint` got to 100 pixels above the bottom of the screen. And if you are scrolling up from the very bottom, the `enter` animation will not be triggered until it reaches 100 pixels above the bottom of the screen.
+
+Hopefully that makes sense. If you are still blurry, you might find this explanation from `react-waypoint` useful:
+
+> `topOffset` can either be a number, in which case its a distance from the
+> top of the container in pixels, or a string value. Valid string values are
+> of the form "20px", which is parsed as pixels, or "20%", which is parsed
+> as a percentage of the height of the containing element.
+> For instance, if you pass "-20%", and the containing element is 100px tall,
+> then the waypoint will be triggered when it has been scrolled 20px beyond
+> the top of the containing element.
+
+**`enter`**
+
+type: `object || array` (required)
+
+**`leave`**
+
+type: `object || array` (required)
+
+The `enter` and `leave` properties are used to define the animations and animation details for when the `Bling` component enters and leaves the viewport. These properties have the same structure as the `animate` prop and are defined the same way, except as properties on the `waypoint` prop object.
+
+**`onEnter`**
+
+type: `function`
+
+**`onLeave`**
+
+type: `function`
+
+Both the `onEnter` and `onLeave` properties accept a callback that you can provide for when the `Bling` component enters or leaves the viewport respectively. The `onEnter` and `onLeave` callbacks provide you with three values in the following order:
+
+`currentPosition` - Either 'inside' or 'outside' (the boundaries)
+
+`previousPosition`- Either 'inside' or 'outside' (the boundaries)
+
+`event`
+
+Here is a full example using the `waypoint` prop:
+
+```js
+```
+
+### List of available animations
+
+`bouceOut`
+`bounce`
+`bounceIn`
+`bounceInDown`
+`bounceInLeft`
+`bounceInRight`
+`bounceInUp`
+`bounceOutDown`
+`bounceOutLeft`
+`bounceOutRight`
+`bounceOutUp`
+`fadeIn`
+`fadeInDown`
+`fadeInDownBig`
+`fadeInLeft`
+`fadeInLeftBig`
+`fadeInRight`
+`fadeInRightBig`
+`fadeInUp`
+`fadeInUpBig`
+`fadeOut`
+`fadeOutDown`
+`fadeOutDownBig`
+`fadeOutLeft`
+`fadeOutLeftBig`
+`fadeOutRight`
+`fadeOutRightBig`
+`fadeOutUp`
+`fadeOutUpBig`
+`flash`
+`flip`
+`flipInX`
+`flipInY`
+`flipOutX`
+`flipOutY`
+`headShake`
+`hinge`
+`jello`
+`lightSpeedIn`
+`lightSpeedOut`
+`pulse`
+`rollIn`
+`rollOut`
+`rotateIn`
+`rotateInDownLeft`
+`rotateInDownRight`
+`rotateInUpLeft`
+`rotateInUpRight`
+`rotateOut`
+`rotateOutDownLeft`
+`rotateOutDownRight`
+`rotateOutUpLeft`
+`rotateOutUpRight`
+`rubberBand`
+`shake`
+`slideInDown`
+`slideInLeft`
+`slideInRight`
+`slideInUp`
+`slideOutDown`
+`slideOutLeft`
+`slideOutRight`
+`slideOutUp`
+`swing`
+`tada`
+`wobble`
+`zoomIn`
+`zoomInDown`
+`zoomInLeft`
+`zoomInRight`
+`zoomInUp`
+`zoomOut`
+`zoomOutDown`
+`zoomOutLeft`
+`zoomOutRight`
+`zoomOutUp`
+
+## More about `merge`
+
+From the _react-animations_ README:
+
+> react-animations also exports a `merge` function that takes two animations and returns a new animation that combines the transforms from both. This is experimental and wont work (well) with animations that have conflicting transforms, such as `fadeIn` and `fadeOut`. The merged animation can be used just like any of the imported animations.
+
+## Design Decisions
+
+While creating this library, I went back and forth between two approaches to handling arrays of animations:
+
+The current (and more verbose) approach:
+
+```js
+<Bling
+  animate={[
+    {
+      animation: fadeIn,
+      duration: 3,
+    },
+    {
+      animation: tada,
+      duration: 2,
+      iterate: 2,
+    },
+    {
+      animation: fadeOut,
+      duration: 4,
+    },
+  ]}
+  render={<p>Go react-bling!</p>}
+/>
+```
+
+and the more succinct approach:
+
+```js
+<Bling
+  animate={{
+    animation: [fadeIn, tada, fadeOut],
+    duration: [3, 2, 4],
+    delay: [0, 0, 1],
+    iterate: [1, 2, 1],
+  }}
+  render={<p>Go react-bling!</p>}
+/>
+```
+
+Ultimately, I decided to go with the more verbose approach as I found it easier to read, understand and work with. Imagine you pass an array of three animations but an array of only two durations. Should the last animation use the previous duration or the default duration value? I find it much easier to explicitly define the properties for each animation with the assumption that the defaults are applied if no value is provided.
+
+Also, if you decide to change the order of animations later, it's much easier when they are grouped together as objects as opposed to each value being a part of a seperate array.
+
+Made with :green_heart: by a vegan
