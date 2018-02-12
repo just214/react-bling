@@ -67,7 +67,7 @@ class Bling extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const check = this.state.animation !== nextState.animation;
+    const check = this.state !== nextState;
     return check;
   }
 
@@ -159,7 +159,8 @@ class Bling extends React.Component {
 
         <AnimatedWrapper
           {...this.props}
-          className={this.props.className + ' bling'}
+          className="bling"
+          style={this.props.style}
           type={this.state.type}
           animation={this.state.animation}
           duration={this.state.duration}
