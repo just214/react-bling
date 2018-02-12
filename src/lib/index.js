@@ -78,7 +78,6 @@ class Bling extends React.Component {
   };
 
   handleArray = (type, prop) => {
-    console.log(type, prop);
     let dur = 0;
     prop.map((val, i) => {
       const duration = val.duration || 2;
@@ -86,7 +85,6 @@ class Bling extends React.Component {
       const total = duration * iterate;
 
       if (i === 0) {
-        console.log('it', iterate);
         dur = total;
         this.applyAnimation('animate', val);
       } else {
@@ -141,6 +139,7 @@ class Bling extends React.Component {
           )}
 
         <AnimatedWrapper
+          {...this.props}
           className="bling"
           type={this.state.type}
           animation={this.state.animation}

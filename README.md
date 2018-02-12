@@ -6,7 +6,22 @@
 
 ## Overview
 
-Simply wrap any React component(s) or element(s) in a `Bling` component and pass it animations and display information via `props`. Animations can either applied on initial render via the `animate` prop or when the `Bling` component enters or exits the viewport via the `waypoint` prop. This library exposes the animations and `merge` function provided by _react-animations_ along with the ability to chain these animations.
+First, you install the `react-bling` library.
+
+`npm i react-bling` or `yarn install react-bling`
+
+Next, you import the default `Bling` component along with the animations that you want to use from the _react-bling_ library.
+
+`import Bling, { fadeIn, tada} from 'react-bling';`
+
+Finally, you wrap some React component(s) or element(s) in a `Bling` component and pass it animations and display information via `props`.
+
+Animations can either applied one of two ways:
+
+1. On the initial render via the `animate` prop
+2. When the `Bling` component enters or exits the viewport via the `waypoint` prop.
+
+This library exposes the animations and `merge` function provided by _react-animations_ along with the ability to chain these animations.
 
 I created the following website, which lets you sample all of the animations provided provided by _react-animations_: [https://rad.surge.sh](https://rad.surge.sh)
 
@@ -80,7 +95,7 @@ A single animation
 
 ```js
 import React from 'react';
-import Bling, { fadeIn } from './react-bling/Bling';
+import Bling, { fadeIn } from 'react-bling';
 
 const App = () => (
   <Bling
@@ -228,12 +243,61 @@ Both the `onEnter` and `onLeave` properties accept a callback that you can provi
 
 `event`
 
-Here is a full example using the `waypoint` prop:
+## Example components
+
+Using the `animate` prop
 
 ```js
+<Bling
+  animate={[
+    {
+      animation: merge(tada, flip),
+      duration: 2,
+      iterate: 2,
+      direction: 'alternate',
+    },
+    {
+      animation: fadeOut,
+      duration: 3,
+      delay: 2,
+    },
+  ]}
+  render={<h1>Hello</h1>}
+/>
 ```
 
-### List of available animations
+Using the `waypoint` prop
+
+```js
+<Bling
+  waypoint={{
+    onEnter: (currentPosition, previousPosition, event) => {
+      console.log(currentPosition, previousPosition, event);
+    },
+    onLeave: (currentPosition, previousPosition, event) => {
+      console.log(currentPosition, previousPosition, event);
+    },
+    position: 'above',
+    enter: {
+      animation: merge(tada, flip),
+      duration: 2,
+    },
+    leave: [
+      {
+        animation: tada,
+        duration: 3,
+      },
+      {
+        animation: fadeOut,
+        duration: 3,
+      },
+    ],
+  }}
+  render={<h1>Hello</h1>}
+/>
+```
+
+## List of available animations
 
 `bouceOut`
 `bounce`

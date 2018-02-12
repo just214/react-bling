@@ -2,7 +2,7 @@ import React from 'react';
 import Bling, { tada, flip, fadeOut, merge } from '../lib';
 import styled from 'styled-components';
 
-export const Container = styled.div`
+const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,14 +12,14 @@ export const Container = styled.div`
   padding-bottom: 200px;
 `;
 
-export const FullHeight = styled.div`
+const FullHeight = styled.div`
   flex: 1 100%;
   text-align: ${props => (props.center ? 'center' : '')};
   height: 100vh;
   margin-top: 75px;
 `;
 
-export const Button = styled.button`
+const Button = styled.button`
   height: 50px;
   width: 100px;
   border-radius: 10px;
@@ -41,19 +41,51 @@ class App extends React.Component {
         </FullHeight>
         <FullHeight center>
           {this.state.show && (
+            // <Bling
+            //   style={{
+            //     border: '2px solid black',
+            //     width: '80%',
+            //     margin: '0 auto',
+            //   }}
+            //   waypoint={{
+            //     onEnter: (currentPosition, previousPosition, event) => {
+            //       console.log(currentPosition, previousPosition, event);
+            //     },
+            //     onLeave: (currentPosition, previousPosition, event) => {
+            //       console.log(currentPosition, previousPosition, event);
+            //     },
+            //     position: 'above',
+            //     enter: {
+            //       animation: merge(tada, flip),
+            //       duration: 2,
+            //     },
+            //     leave: [
+            //       {
+            //         animation: tada,
+            //         duration: 3,
+            //       },
+            //       {
+            //         animation: fadeOut,
+            //         duration: 3,
+            //       },
+            //     ],
+            //   }}
+            //   render={<h1>Hello</h1>}
+            // />
             <Bling
-              // animate={{ animation: tada }}
-              waypoint={{
-                position: 'above',
-                enter: {
+              animate={[
+                {
                   animation: merge(tada, flip),
-                  duration: 7,
+                  duration: 2,
+                  iterate: 2,
+                  direction: 'alternate',
                 },
-                leave: {
+                {
                   animation: fadeOut,
-                  duration: 5,
+                  duration: 3,
+                  delay: 2,
                 },
-              }}
+              ]}
               render={<h1>Hello</h1>}
             />
           )}
@@ -64,3 +96,21 @@ class App extends React.Component {
 }
 
 export default App;
+
+// <Bling
+// animate={[
+//   {
+//     animation: merge(tada, flip),
+//     duration: 2,
+//     iterate: 2,
+//     direction:'alternate'
+//   },
+//   {
+//     animation: fadeOut,
+//     duration: 3,
+//     delay: 2,
+//   },
+
+// ]}
+// render={<h1>Hello</h1>}
+// />
