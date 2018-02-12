@@ -1,6 +1,6 @@
 {
   "name": "react-bling",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A simple library that brings together react-animations, styled-components and react-waypoint to give you out-of-the-box animations for your React project.",
   "main": "build/index.js",
   "scripts": {
