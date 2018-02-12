@@ -243,6 +243,43 @@ Both the `onEnter` and `onLeave` properties accept a callback that you can provi
 
 `event`
 
+## Styling the `Bling` component
+
+The `bling` component can be styled in a number of different ways:
+
+With inline styles
+
+```js
+<Bling
+  style={{ border: '2px solid firebrick' }}
+  ...
+/>
+```
+
+By extending the component with _styled-components_
+
+```js
+const StyledBling = styled(Bling)`
+  position: fixed;
+  width: 100%;
+  text-align: center;
+  z-index: 9.97999999890000033531123335706e29;
+`;
+```
+
+By using the `.bling` class
+
+_Styles created with the `.bling` class will be applied to all `Bling` components rendered on the page. Maybe this is what you want. If not, consider the other styling options._
+
+```css
+.bling {
+  position: fixed;
+  width: 100%;
+  text-align: center;
+  z-index: 9.97999999890000033531123335706e29;
+}
+```
+
 ## Example components
 
 Using the `animate` prop

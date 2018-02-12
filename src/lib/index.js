@@ -25,9 +25,9 @@ const AnimatedWrapper = props => {
     animation-delay: ${props => props.delay};
     animation-direction: ${props => props.direction};
     animation-fill-mode: forwards;
-    z-index: 1000;
+    z-index: 20000;
   `;
-  return <StyledAnimatedWrapper {...props} />;
+  return <StyledAnimatedWrapper style={props.style} {...props} />;
 };
 
 AnimatedWrapper.propTypes = {
@@ -64,6 +64,11 @@ class Bling extends React.Component {
     } else if (animate && Array.isArray(animate)) {
       this.handleArray('animate', animate);
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const check = this.state.animation !== nextState.animation;
+    return check;
   }
 
   applyAnimation = (type, value) => {
@@ -125,8 +130,22 @@ class Bling extends React.Component {
     if (waypoint && !waypoint.position) {
       return (
         <Waypoint
-          onEnter={(a, b, c) => this.handleWaypoint('enter', a, b, c)}
-          onLeave={(a, b, c) => this.handleWaypoint('leave', a, b, c)}
+          onEnter={(currentPosition, previousPosition, event) =>
+            this.handleWaypoint(
+              'enter',
+              currentPosition,
+              previousPosition,
+              event,
+            )
+          }
+          onLeave={(currentPosition, previousPosition, event) =>
+            this.handleWaypoint(
+              'leave',
+              currentPosition,
+              previousPosition,
+              event,
+            )
+          }
         />
       );
     }
@@ -140,7 +159,7 @@ class Bling extends React.Component {
 
         <AnimatedWrapper
           {...this.props}
-          className="bling"
+          className={this.props.className + ' bling'}
           type={this.state.type}
           animation={this.state.animation}
           duration={this.state.duration}
